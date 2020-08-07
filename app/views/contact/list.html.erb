@@ -1,0 +1,30 @@
+<br>
+    <!-- contacts card -->
+    <div class="card card-default" id="card_contacts">
+        <div id="contacts" class="panel-collapse collapse show" aria-expanded="true" style="">
+            <ul class="list-group pull-down" id="contact-list">
+            		<% @users.each do |user| %>
+	                <li class="list-group-item">
+	                    <div class="row w-100">
+	                        <div class="col-12 col-sm-6 col-md-3 px-0">
+	                            <img src="<%= user.avatar.url%>" alt="Mike Anamendolla" class="rounded-circle mx-auto d-block img-fluid">
+	                        </div>
+	                        <div class="col-12 col-sm-6 col-md-9 text-center text-sm-left">
+                            <a href="/conversations?user_id=<%= user.id%>" data-method='post'><span class="fa fa-envelope fa-lg text-danger float-right" title="left you a message"></span></a>
+	                          
+
+	                            <label class="name lead"><%= user.name %></label>
+	                            <br>
+	                            <span class="fa fa-phone fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="(870) 288-4149"></span>
+	                            <span class="text-muted small">(+91) <%= user.phone %></span>
+	                            <br>
+	                            <span class="fa fa-envelope fa-fw text-muted" data-toggle="tooltip" data-original-title="" title=""></span>
+	                            <span class="text-muted small text-truncate"> <%= user.email %></span>
+	                        </div>
+	                    </div>
+	                </li>
+                <% end %>
+            </ul>
+            <!--/contacts list-->
+        </div>
+    </div>

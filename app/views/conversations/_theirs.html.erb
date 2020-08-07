@@ -1,0 +1,8 @@
+<div class="incoming_msg">
+  <div class="incoming_msg_img"><%= image_tag message.sender.avatar.url%> </div>
+    <div class="received_msg">
+      <div class="received_withd_msg">
+        <p><%= message.content%></p>
+        <span class="time_date"><%= message.created_at.localtime.strftime('%I:%M %p | %b %e')%> </span></div>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+
+
+<div id="conversation-id" data-conversation-id="<%= @conversation&.id%>" ></div>
+
+<h3 class=" text-center">Messaging</h3>
+<div class="messaging">
+      <div class="inbox_msg">
+        <div class="inbox_people">
+          <div class="headind_srch">
+            <div class="recent_heading">
+              <h4>Recent</h4>
+            </div>
+            <div class="srch_bar">
+              <div class="stylish-input-group">
+                <input type="text" class="search-bar"  placeholder="Search" >
+                <span class="input-group-addon">
+                <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                </span> </div>
+            </div>
+          </div>
+          <div class="inbox_chat">
+
+            <%@conversations.each_with_index do |conversation, index|%>
+                <% klass = @conversation.id == conversation.id ? 'active_chat' : '' %>
+                <a href="/conversations?id=<%= conversation.id.to_s%>">
+                <div class="chat_list  <%= klass %>">
+
+                      <% message = last_message_sender(conversation)%>
+                      <div class="chat_people">
+              
+                        <div class="chat_img">
+                          <%other_user = conversation.participators&.not_in(user_id: current_user.id)&.last&.user %>
+                          <%= image_tag other_user&.avatar&.url,  class: 'rounded-circle'%>
+                        </div>
+             
+                    <div class="chat_ib" id="<%=dom_id(conversation)%>">
+                      <%= render 'conversations/recent_message', message: message, other_user: other_user %>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            <%end%>
+
+          </div>
+        </div>
+        <div class="mesgs">
+          <div class="msg_history">
+             <%= render 'conversations/messages', messages: @messages %>
+          </div>
+          <div class="type_msg">
+            <div class="input_msg_write">
+
+              <input type="text" class="write_msg" placeholder="Type a message" name="message[content]" />
+              <button id="new-message" class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      <p class="text-center top_spac"> Design by <a target="_blank" href="#">Ankur Saini</a></p>
+      
+    </div>
+  
+  <script type="text/javascript">
+
+    $(window).on('load', function(){
+      var getTopOffset = $('.msg_history').prop("scrollHeight")
+      $('.msg_history').animate({scrollTop: getTopOffset},500)
+    })
+
+    $(document).ready(function(){
+
+      $('#new-message').click(function(){
+        const room_element = document.getElementById('conversation-id');
+        const conversation_id = room_element.getAttribute('data-conversation-id');
+        $.ajax({
+          beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+          type:"POST",
+          url: `/conversations/${conversation_id}/new_message`,
+          data: {"[message][content]": $('.write_msg').val(), 'message[conversation_id]': conversation_id }
+        })
+      })
+
+
+      // Execute a function when the user releases a key on the keyboard
+      document.addEventListener("keyup", function(event) {
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+          // Cancel the default action, if needed
+          event.preventDefault();
+          // Trigger the button element with a click
+          document.getElementById("new-message").click();
+        }
+      });      
+    })
+  </script>

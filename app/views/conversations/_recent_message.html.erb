@@ -1,0 +1,6 @@
+	<h5><%= other_user&.name %> </h5>	
+	<% if message.nil?%>
+	<%else%>
+		<span class="chat_date"><%= message.present? ?  time_ago_in_words(message&.created_at) : '-'%></span></h5>	
+	<p><%= message&.content %></p>
+	<%end%>
