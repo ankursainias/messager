@@ -1,6 +1,7 @@
 
 
 <div id="conversation-id" data-conversation-id="<%= @conversation&.id%>" ></div>
+<div id="conversation-ids" data-conversation-ids="<%= raw @conversations.map { |c| c.id.to_s}.join(',') %>" ></div>
 
 <h3 class=" text-center">Messaging</h3>
 <div class="messaging">
@@ -32,10 +33,11 @@
                           <%other_user = conversation.participators&.not_in(user_id: current_user.id)&.last&.user %>
                           <%= image_tag other_user&.avatar&.url,  class: 'rounded-circle'%>
                         </div>
-             
-                    <div class="chat_ib" id="<%=dom_id(conversation)%>">
-                      <%= render 'conversations/recent_message', message: message, other_user: other_user %>
-                    </div>
+                    <%#if @conversation.id == conversation.id %>
+                      <div class="chat_ib" id="<%=dom_id(conversation)%>">
+                        <%= render 'conversations/recent_message', message: message, other_user: other_user %>
+                      </div>
+                    <%#end%>
                   </div>
                 </div>
               </a>
@@ -44,7 +46,7 @@
           </div>
         </div>
         <div class="mesgs">
-          <div class="msg_history">
+          <div class="msg_history" id="conversations-<%= @conversations.id%>">
              <%= render 'conversations/messages', messages: @messages %>
           </div>
           <div class="type_msg">
@@ -82,6 +84,7 @@
           data: {"[message][content]": $('.write_msg').val(), 'message[conversation_id]': conversation_id }
         })
       })
+
 
 
       // Execute a function when the user releases a key on the keyboard

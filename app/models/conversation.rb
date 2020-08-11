@@ -1,4 +1,5 @@
-class Conversation < ApplicationModel
+class Conversation
+	include Common
   field :title, type: String
   field :deleted_at, type: Time
   field :key, type: Integer
@@ -7,5 +8,4 @@ class Conversation < ApplicationModel
   has_many :participators, class_name: 'Participate', dependent: :destroy
   has_many	:messages, class_name: 'Message', dependent: :destroy	
   # embeds_many :participates, cascade_callbacks: true
-  # embeds_many	:messages, class_name: 'Message', cascade_callbacks: true
 end

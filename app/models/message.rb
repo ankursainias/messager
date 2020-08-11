@@ -1,6 +1,5 @@
-class Message < ApplicationModel
-  include Mongoid::Document
-  include Mongoid::Attributes::Dynamic
+class Message
+  include Common
   field :message_type, type: String
   field :content, type: String
   field :read, type: Mongoid::Boolean
@@ -10,7 +9,6 @@ class Message < ApplicationModel
   belongs_to :conversation, class_name: 'Conversation'
   belongs_to :sender, class_name: 'User'
   # after_create :broadcast_message
-
 
   def receivers
       User.in(id: conversation.participators.pluck(:user_id).map(&:to_s)).all.entries

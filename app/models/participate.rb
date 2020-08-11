@@ -1,4 +1,5 @@
-class Participate < ApplicationModel
+class Participate
+	include Common
   field :key, type: Integer
   increments :key
   field :type, type: String, default: 'Single'

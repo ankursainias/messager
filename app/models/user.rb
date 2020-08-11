@@ -1,5 +1,5 @@
-class User < ApplicationModel
-
+class User
+  include Common
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

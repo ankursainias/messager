@@ -1,5 +1,5 @@
 class DeleteMessage
-  include Mongoid::Document
+	include Common
   belongs_to :message
   belongs_to :user
 end
